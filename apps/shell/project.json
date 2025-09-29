@@ -20,7 +20,43 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "shell:build",
+        "port": 4200,
         "spa": true
+      }
+    },
+    "serve": {
+      "executor": "@nx/rspack:module-federation-dev-server",
+      "options": {
+        "buildTarget": "shell:build",
+        "port": 4200
+      }
+    },
+    "build": {
+      "executor": "@nx/rspack:rspack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "outputPath": "dist/apps/shell",
+        "index": "apps/shell/src/index.html",
+        "main": "apps/shell/src/main.ts",
+        "tsConfig": "apps/shell/tsconfig.app.json",
+        "rspackConfig": "apps/shell/rspack.config.js",
+        "assets": [{
+          "glob": "**/*",
+          "input": "apps/shell/public",
+          "output": "./"
+        }]
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false
+        }
       }
     }
   }
